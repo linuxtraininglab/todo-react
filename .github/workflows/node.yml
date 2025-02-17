@@ -18,7 +18,6 @@ jobs:
       image: public.ecr.aws/docker/library/node:20.18-alpine
     steps:
     - uses: actions/checkout@v4
-    - run: npm install --global yarn
     - run: yarn install --frozen-lockfile
     - run: yarn run lint
     - run: yarn run build
