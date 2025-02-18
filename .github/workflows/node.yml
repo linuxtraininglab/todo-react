@@ -11,8 +11,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - run: find . 
+      - name: Debug workspace 1
+        run: find . 
         working-directory: ${{ github.workspace }}
+      - name: Debug workspace 2
+        run: pwd
+        working-directory: ${{ github.workspace }}
+      - name: Debug CWD
+        run: find . 
 
   lint:
     runs-on: self-hosted
