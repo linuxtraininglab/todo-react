@@ -10,7 +10,7 @@ jobs:
   install:
     runs-on: self-hosted
     container:
-      image: public.ecr.aws/docker/library/node:20.18-alpine
+      image: public.ecr.aws/docker/library/node:20.18-bookworm
     steps:
       - uses: actions/checkout@v4
       - run: yarn install --frozen-lockfile
@@ -24,7 +24,7 @@ jobs:
     runs-on: self-hosted
     needs: install
     container:
-      image: public.ecr.aws/docker/library/node:20.18-alpine
+      image: public.ecr.aws/docker/library/node:20.18-bookworm
     steps:
       - uses: actions/checkout@v4
       - name: Restore node modules from cache
