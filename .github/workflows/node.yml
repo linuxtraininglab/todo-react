@@ -7,41 +7,47 @@ on:
     branches: [ "main" ]
 
 jobs:
-  checkout:
+  install:
     runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - name: Print Environment
-        run: printenv
-      - name: Debug workspace 1
-        run: find . 
-        working-directory: ${{ github.workspace }}
-      - name: Print current workspace directory
-        run: pwd
-        working-directory: ${{ github.workspace }}
-      - name: Debug CWD
-        run: find .
-      - name: Find _actions dir
-        run: find .
-        working-directory: /home/vagrant/actions-runner/_work/_actions
-
-
-  lint:
-    runs-on: self-hosted
-    needs: checkout
     container:
       image: public.ecr.aws/docker/library/node:20.18-alpine
     steps:
       - uses: actions/checkout@v4
       - run: yarn install --frozen-lockfile
+      - name: Save node modules to cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+  lint:
+    runs-on: self-hosted
+    needs: install
+    container:
+      image: public.ecr.aws/docker/library/node:20.18-alpine
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore node modules from cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - run: yarn run lint
 
   build:
     runs-on: self-hosted
-    needs: lint
+    needs: install
     container:
       image: public.ecr.aws/docker/library/node:20.18-alpine
     steps:
       - uses: actions/checkout@v4
-      - run: yarn install --frozen-lockfile
+      - name: Restore node modules from cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - run: yarn run build
