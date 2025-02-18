@@ -16,14 +16,27 @@ jobs:
       - name: Debug workspace 1
         run: find . 
         working-directory: ${{ github.workspace }}
-      - name: Debug workspace 2
+      - name: Print current workspace directory
         run: pwd
         working-directory: ${{ github.workspace }}
       - name: Debug CWD
         run: find .
       - name: Find _actions dir
         run: find .
-        working-directory: /home/vagrant/actions-runner/_work
+        working-directory: /home/vagrant/actions-runner/_work/_actions
+
+  test123:
+    runs-on: self-hosted
+    needs: checkout
+    steps:
+      - name: Print current working directory
+        run: pwd
+      - name: Print current workspace directory
+        run: pwd
+        working-directory: ${{ github.workspace }}
+      - name: Find _actions dir
+        run: find .
+        working-directory: /home/vagrant/actions-runner/_work/_actions
 
   lint:
     runs-on: self-hosted
