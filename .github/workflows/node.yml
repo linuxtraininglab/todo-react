@@ -12,6 +12,11 @@ env:
   DOCKER_HOST: unix:///run/user/1001/podman/podman.sock
 
 jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - run: echo ${DOCKER_HOST}
+
   install:
     runs-on: self-hosted
     container:
