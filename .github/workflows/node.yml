@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  
+# Global environment variables for all jobs
+env:
+  DOCKER_HOST: unix:///run/user/1001/podman/podman.sock
 
 jobs:
   install:
