@@ -20,8 +20,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          # key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
   lint:
     runs-on: self-hosted
