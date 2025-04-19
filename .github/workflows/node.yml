@@ -12,6 +12,7 @@ jobs:
     runs-on: self-hosted
     container:
       image: public.ecr.aws/docker/library/node:20.18-bookworm
+      options: --security-opt label=disable
     steps:
       - uses: actions/checkout@v4
       - run: yarn install --frozen-lockfile
@@ -27,6 +28,7 @@ jobs:
     needs: install
     container:
       image: public.ecr.aws/docker/library/node:20.18-bookworm
+      options: --security-opt label=disable
     steps:
       - uses: actions/checkout@v4
       - name: Restore node modules from cache
@@ -43,6 +45,7 @@ jobs:
     needs: install
     container:
       image: public.ecr.aws/docker/library/node:20.18-bookworm
+      options: --security-opt label=disable
     steps:
       - uses: actions/checkout@v4
       - name: Restore node modules from cache
